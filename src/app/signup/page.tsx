@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -22,19 +23,16 @@ import { cn } from "@/lib/utils";
 const emailSchema = z.string().email("Invalid email address");
 const passwordSchema = z
   .string()
-  .min(6, "Password must be at least 6 characters");
+  .min(5, "Password must be at least 5 characters");
 
-export default function AuthPage() {
+function SignupPage() {
   const { user, login } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
-
-  useEffect(() => {
-    if (user) {
-      router.push("/");
-    }
-  }, [user, router]);
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   const [signInData, setSignInData] = useState({ email: "", password: "" });
   const [signUpData, setSignUpData] = useState({
@@ -44,53 +42,111 @@ export default function AuthPage() {
     invitationCode: "",
   });
 
+  console.log("🔍 Component rendered. User:", user, "Active Tab:", activeTab);
+
+  // Redirect after login/signup
+  useEffect(() => {
+    console.log("🔄 useEffect triggered. User:", user, "isRedirecting:", isRedirecting);
+    if (user && !isRedirecting) {
+      console.log("✅ Redirecting user...");
+      setIsRedirecting(true);
+      const redirectTo = searchParams.get("redirect") || "/";
+      toast.success(`Welcome, ${user.name || user.email}!`);
+      router.replace(redirectTo);
+    }
+  }, [user, router, searchParams, isRedirecting]);
+
   const handleSignIn = async (e: React.FormEvent) => {
+    console.log("🚀 handleSignIn CALLED");
     e.preventDefault();
+
+    console.log("📧 Sign in data:", signInData);
+
+    // Validate inputs
     try {
       emailSchema.parse(signInData.email);
       passwordSchema.parse(signInData.password);
+      console.log("✅ Validation passed");
     } catch (error: any) {
-      toast.error(error.errors?.[0]?.message || "Invalid input");
+      console.log("❌ Validation failed:", error);
+      // Zod errors are in error.issues, not error.errors
+      const errorMessage = error.issues?.[0]?.message || error.errors?.[0]?.message || "Invalid input";
+      toast.error(errorMessage);
       return;
     }
 
     setLoading(true);
+    console.log("⏳ Starting login...");
+    
     try {
-      await login(signInData.email, signInData.password);
-      toast.success("Welcome back!");
-    } catch {
-      toast.error("Login failed");
+      console.log("📞 Calling login function...");
+      const result = await login(signInData.email, signInData.password);
+      console.log("✅ Login result:", result);
+
+      // Success - toast and redirect handled by useEffect
+    } catch (error: any) {
+      console.error("❌ Login error:", error);
+      toast.error(
+        error.message || "Login failed. Please check your credentials."
+      );
     } finally {
       setLoading(false);
+      console.log("🏁 Login process finished");
     }
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
+    console.log("🚀 handleSignUp CALLED");
     e.preventDefault();
+
+    console.log("📧 Sign up data:", signUpData);
+
+    // Validate inputs
     try {
       emailSchema.parse(signUpData.email);
       passwordSchema.parse(signUpData.password);
+      console.log("✅ Validation passed");
     } catch (error: any) {
-      toast.error(error.errors?.[0]?.message || "Invalid input");
+      console.log("❌ Validation failed:", error);
+      // Zod errors are in error.issues, not error.errors
+      const errorMessage = error.issues?.[0]?.message || error.errors?.[0]?.message || "Invalid input";
+      toast.error(errorMessage);
       return;
     }
 
     if (signUpData.password !== signUpData.confirmPassword) {
+      console.log("❌ Passwords don't match");
       toast.error("Passwords do not match");
       return;
     }
 
     setLoading(true);
+    console.log("⏳ Starting signup...");
+    
     try {
-      await login(signUpData.email, signUpData.password); // Mock signup
+      console.log("📞 Calling login function for signup...");
+      const result = await login(signUpData.email, signUpData.password);
+      console.log("✅ Signup result:", result);
       toast.success("Account created successfully!");
-      router.push("/");
-    } catch {
-      toast.error("Failed to create account");
+    } catch (error: any) {
+      console.error("❌ Signup error:", error);
+      toast.error(
+        error.message || "Failed to create account. Please try again."
+      );
     } finally {
       setLoading(false);
+      console.log("🏁 Signup process finished");
     }
   };
+
+  // Show loading state only when redirecting
+  if (isRedirecting) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
@@ -107,8 +163,11 @@ export default function AuthPage() {
         </CardHeader>
         <CardContent>
           <Tabs
-            defaultValue="login"
-            onValueChange={(value) => setActiveTab(value)}
+            defaultValue={activeTab}
+            onValueChange={(value) => {
+              console.log("🔄 Tab changed to:", value);
+              setActiveTab(value);
+            }}
           >
             <TabsList className="grid grid-cols-2 w-full rounded-md">
               <TabsTrigger
@@ -135,6 +194,7 @@ export default function AuthPage() {
               </TabsTrigger>
             </TabsList>
 
+            {/* Login Tab */}
             <TabsContent
               value="login"
               className="transition-opacity duration-300"
@@ -147,10 +207,12 @@ export default function AuthPage() {
                     type="email"
                     placeholder="you@example.com"
                     value={signInData.email}
-                    onChange={(e) =>
-                      setSignInData({ ...signInData, email: e.target.value })
-                    }
+                    onChange={(e) => {
+                      console.log("📝 Login email changed:", e.target.value);
+                      setSignInData({ ...signInData, email: e.target.value });
+                    }}
                     required
+                    disabled={loading}
                   />
                 </div>
                 <div className="space-y-2">
@@ -160,19 +222,27 @@ export default function AuthPage() {
                     type="password"
                     placeholder="••••••••"
                     value={signInData.password}
-                    onChange={(e) =>
-                      setSignInData({ ...signInData, password: e.target.value })
-                    }
+                    onChange={(e) => {
+                      console.log("📝 Login password changed");
+                      setSignInData({ ...signInData, password: e.target.value });
+                    }}
                     required
+                    disabled={loading}
                   />
                 </div>
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button 
+                  type="submit" 
+                  className="w-full" 
+                  disabled={loading}
+                  onClick={() => console.log("🖱️ Login button clicked")}
+                >
                   {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   Sign In
                 </Button>
               </form>
             </TabsContent>
 
+            {/* Signup Tab */}
             <TabsContent
               value="signup"
               className="transition-opacity duration-300"
@@ -185,10 +255,12 @@ export default function AuthPage() {
                     type="email"
                     placeholder="you@example.com"
                     value={signUpData.email}
-                    onChange={(e) =>
-                      setSignUpData({ ...signUpData, email: e.target.value })
-                    }
+                    onChange={(e) => {
+                      console.log("📝 Signup email changed:", e.target.value);
+                      setSignUpData({ ...signUpData, email: e.target.value });
+                    }}
                     required
+                    disabled={loading}
                   />
                 </div>
                 <div className="space-y-2">
@@ -198,10 +270,12 @@ export default function AuthPage() {
                     type="password"
                     placeholder="••••••••"
                     value={signUpData.password}
-                    onChange={(e) =>
-                      setSignUpData({ ...signUpData, password: e.target.value })
-                    }
+                    onChange={(e) => {
+                      console.log("📝 Signup password changed");
+                      setSignUpData({ ...signUpData, password: e.target.value });
+                    }}
                     required
+                    disabled={loading}
                   />
                 </div>
                 <div className="space-y-2">
@@ -211,13 +285,15 @@ export default function AuthPage() {
                     type="password"
                     placeholder="••••••••"
                     value={signUpData.confirmPassword}
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      console.log("📝 Confirm password changed");
                       setSignUpData({
                         ...signUpData,
                         confirmPassword: e.target.value,
-                      })
-                    }
+                      });
+                    }}
                     required
+                    disabled={loading}
                   />
                 </div>
                 <div className="space-y-2">
@@ -227,20 +303,24 @@ export default function AuthPage() {
                   <Input
                     id="invitation-code"
                     type="text"
-                    placeholder="Enter invitation code to start at higher tier"
+                    placeholder="Enter invitation code"
                     value={signUpData.invitationCode}
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      console.log("📝 Invitation code changed:", e.target.value);
                       setSignUpData({
                         ...signUpData,
                         invitationCode: e.target.value,
-                      })
-                    }
+                      });
+                    }}
+                    disabled={loading}
                   />
-                  <p className="text-xs text-muted-foreground">
-                    Have an invite code? Start at your inviter's tier!
-                  </p>
                 </div>
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button 
+                  type="submit" 
+                  className="w-full" 
+                  disabled={loading}
+                  onClick={() => console.log("🖱️ Signup button clicked")}
+                >
                   {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   Create Account
                 </Button>
@@ -252,3 +332,5 @@ export default function AuthPage() {
     </div>
   );
 }
+
+export default SignupPage;

@@ -1,7 +1,7 @@
 // services/productService.ts
-import { Product } from '@/types';
+import { MOCK_PRODUCTS } from '@/mocks/products';
 
-import { sampleProducts } from '@/data/products';
+import { Product } from '@/types';
 
 const USE_MOCK = true; // toggle to false to use real API later
 
@@ -9,7 +9,7 @@ export const getProducts = async (): Promise<Product[]> => {
   if (USE_MOCK) {
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(sampleProducts);
+        resolve(MOCK_PRODUCTS);
       }, 500); // simulate network delay
     });
   }

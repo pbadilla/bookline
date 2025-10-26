@@ -1,10 +1,9 @@
 import { Header } from "@/components/Header";
-
 import { Inter } from "next/font/google";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { cn } from "@/lib/utils";
-
+import { Toaster } from "sonner";
 import "@/app/globals.css";
 
 export const metadata = {
@@ -33,6 +32,7 @@ export default function RootLayout({
             <main className="container flex-grow py-8">{children}</main>
           </CartProvider>
         </AuthProvider>
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );

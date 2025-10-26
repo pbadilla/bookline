@@ -25,13 +25,16 @@ const AuthContext = createContext<AuthContextType>({
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
+  // Restore user from localStorage on mount
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) setUser(JSON.parse(storedUser));
+    const stored = localStorage.getItem("user");
+    if (stored) setUser(JSON.parse(stored));
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string): Promise<void> => {
+    debugger;
     let newUser: User;
+
     if (email === "admin@example.com" && password === "admin") {
       newUser = {
         id: "1",
@@ -49,11 +52,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         role: "user",
       };
     }
+
     setUser(newUser);
     localStorage.setItem("user", JSON.stringify(newUser));
+
+    // No return needed
   };
 
-  const logout = () => {
+  const logout = (): void => {
     setUser(null);
     localStorage.removeItem("user");
   };
@@ -65,7 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export const useAuth = () => {
+export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");

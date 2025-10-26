@@ -2,6 +2,8 @@
 
 import React from "react";
 
+import Image from 'next/image';
+
 import { Product } from "@/types";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +16,7 @@ import {
 import { ShoppingCart } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import { useCart } from "@/contexts/CartContext";
+import { LazyImage } from "./ui/LazyImage";
 
 interface ProductCardProps {
   product: Product;
@@ -33,14 +36,12 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow group">
       <div className="relative aspect-square bg-muted flex items-center justify-center overflow-hidden">
-        <img
-          src={`https://picsum.photos/400?random=${product.id}`}
-          alt={product.name}
-          title={product.name}
-          className="object-cover w-full h-full transition-transform group-hover:scale-105"
-        />
-
-        {/* ✅ CATEGORY LABEL OVERLAY */}
+      <LazyImage
+        src={`https://picsum.photos/400?random=${product.id}`}
+        alt={product.name}
+        title={product.name}
+        className="object-cover w-full h-full transition-transform group-hover:scale-105"
+      />
         {product.category && (
           <div className="absolute top-2 right-2">
             <span className="inline-flex items-center rounded-full bg-background/90 px-3 py-1 text-xs font-medium backdrop-blur">
@@ -54,11 +55,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <CardTitle className="text-lg line-clamp-1" title={product.name}>
           {product.name}
         </CardTitle>
-
-        <p
-          className="text-sm text-muted-foreground line-clamp-2"
-          title={product.description}
-        >
+        <p className="text-sm text-muted-foreground line-clamp-2 h-10" title={product.description}>
           {product.description}
         </p>
       </CardHeader>

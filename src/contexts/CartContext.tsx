@@ -1,23 +1,28 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, ReactNode } from 'react';
 
+// Cart item type
 interface CartItem {
-  id: string;
+  id: number;
   title: string;
   price: number;
   quantity: number;
+  image_url?: string | undefined;
+  name?: string | undefined;
 }
 
+// Context type
 interface CartContextType {
   items: CartItem[];
   addItem: (item: Omit<CartItem, 'quantity'>) => void;
-  removeItem: (id: string) => void;
-  updateQuantity: (id: string, quantity: number) => void;
+  removeItem: (id: number) => void;
+  updateQuantity: (id: number, quantity: number) => void;
   getTotalItems: () => number;
   getTotalPrice: () => number;
 }
 
+// Create context with default empty values
 const CartContext = createContext<CartContextType>({
   items: [],
   addItem: () => {},
@@ -27,9 +32,11 @@ const CartContext = createContext<CartContextType>({
   getTotalPrice: () => 0,
 });
 
-export function CartProvider({ children }: { children: React.ReactNode }) {
+// Provider component
+export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
 
+  // Add an item or increase quantity if it already exists
   const addItem = (newItem: Omit<CartItem, 'quantity'>) => {
     setItems(current => {
       const existingItem = current.find(item => item.id === newItem.id);
@@ -44,11 +51,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  const removeItem = (id: string) => {
+  // Remove item by id
+  const removeItem = (id: number) => {
     setItems(current => current.filter(item => item.id !== id));
   };
 
-  const updateQuantity = (id: string, quantity: number) => {
+  // Update quantity of an item
+  const updateQuantity = (id: number, quantity: number) => {
     setItems(current =>
       current.map(item =>
         item.id === id ? { ...item, quantity: Math.max(0, quantity) } : item
@@ -56,10 +65,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     );
   };
 
+  // Calculate total number of items
   const getTotalItems = () => {
     return items.reduce((total, item) => total + item.quantity, 0);
   };
 
+  // Calculate total price
   const getTotalPrice = () => {
     return items.reduce((total, item) => total + item.price * item.quantity, 0);
   };
@@ -80,10 +91,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
+// Custom hook to use the cart
 export const useCart = () => {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error('useCart must be used within a CartProvider');
-  }
-  return context;
+  return useContext(CartContext);
 };

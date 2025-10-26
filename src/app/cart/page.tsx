@@ -37,7 +37,7 @@ export const ProductCard = ({
       toast.error("Product is out of stock");
       return;
     }
-    addItem({ id, name, price, image_url });
+    addItem({ id: Number(id), price, image_url, title: name });
     toast.success("Added to cart");
   };
 
@@ -73,7 +73,7 @@ export const ProductCard = ({
       <CardContent className="p-4">
         <h3 className="font-semibold text-lg mb-1 line-clamp-1">{name}</h3>
         {description && (
-          <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
+          <p className="text-sm text-muted-foreground line-clamp-2 mb-2 h-10">
             {description}
           </p>
         )}
@@ -105,13 +105,13 @@ export default function CartPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {items.map((item) => (
             <ProductCard
-              key={item.id}
-              id={item.id}
-              name={item.name}
-              price={item.price}
-              image_url={item.image_url}
+              key={item.id?.toString() ?? ""}
+              id={item.id?.toString() ?? ""}
+              name={item.name ?? ""}
+              price={item.price ?? 0}
+              image_url={item.image_url ?? ""}
               category="Cart"
-              stock={1}
+              stock={item.quantity ?? 1}
             />
           ))}
         </div>
