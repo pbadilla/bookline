@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 interface User {
   id: string;
@@ -25,28 +25,37 @@ const AuthContext = createContext<AuthContextType>({
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) setUser(JSON.parse(storedUser));
+  }, []);
+
   const login = async (email: string, password: string) => {
+    let newUser: User;
     if (email === "admin@example.com" && password === "admin") {
-      setUser({
+      newUser = {
         id: "1",
         name: "Admin User",
         email,
         tier: "gold",
         role: "admin",
-      });
+      };
     } else {
-      setUser({
+      newUser = {
         id: "2",
         name: "Regular User",
         email,
         tier: "bronze",
         role: "user",
-      });
+      };
     }
+    setUser(newUser);
+    localStorage.setItem("user", JSON.stringify(newUser));
   };
 
   const logout = () => {
     setUser(null);
+    localStorage.removeItem("user");
   };
 
   return (

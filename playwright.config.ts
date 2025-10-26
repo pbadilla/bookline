@@ -16,4 +16,10 @@ export default defineConfig({
     { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
     { name: 'webkit', use: { ...devices['Desktop Safari'] } },
   ],
+  webServer: {
+    command: 'pnpm dev',            // Starts your Next.js app
+    url: 'http://localhost:3000',   // Wait until this URL responds
+    reuseExistingServer: !process.env.CI, // Don’t restart locally
+    timeout: 120_000,               // 2 minutes to allow cold start
+  },
 });

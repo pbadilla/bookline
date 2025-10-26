@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -25,10 +25,16 @@ const passwordSchema = z
   .min(6, "Password must be at least 6 characters");
 
 export default function AuthPage() {
-  const { login } = useAuth();
+  const { user, login } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
+
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user, router]);
 
   const [signInData, setSignInData] = useState({ email: "", password: "" });
   const [signUpData, setSignUpData] = useState({
@@ -51,7 +57,7 @@ export default function AuthPage() {
     setLoading(true);
     try {
       await login(signInData.email, signInData.password);
-      router.push("/");
+      toast.success("Welcome back!");
     } catch {
       toast.error("Login failed");
     } finally {
