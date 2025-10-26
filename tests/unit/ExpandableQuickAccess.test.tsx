@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, fireEvent } from "@testing-library/react";
 import React from "react";
-import { ExpandableQuickAccess } from "./ExpandableQuickAccess";
+import { ExpandableQuickAccess } from "@/components/ExpandableQuickAccess";
 import type { QuickAccessProps } from "@/components/QuickAccess";
 
 // Mock QuickAccess component
@@ -19,7 +19,7 @@ vi.mock("@/components/ui/button", () => ({
 }));
 
 describe("ExpandableQuickAccess", () => {
-  const props: QuickAccessProps = {}; // pass minimal props for test
+  const props: any = {}; // pass minimal props for test
 
   it("renders button and QuickAccess hidden initially", () => {
     const { getByText, queryByTestId } = render(

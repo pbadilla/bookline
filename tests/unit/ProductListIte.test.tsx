@@ -21,10 +21,14 @@ vi.mock("@/components/ui/card", () => ({
   CardContent: ({ children }: any) => <div>{children}</div>,
 }));
 
-// Mock formatPrice
-vi.mock("@/lib/utils", () => ({
-  formatPrice: (price: number) => `$${price.toFixed(2)}`,
-}));
+// Mock formatPrice but preserve other exports (like `cn`) from the real module
+vi.mock("@/lib/utils", async (importOriginal) => {
+  const actual = (await importOriginal()) as any;
+  return {
+    cn: actual.cn,
+    formatPrice: (price: number) => `$${price.toFixed(2)}`,
+  };
+});
 
 // Mock next/link to render plain anchor
 vi.mock("next/link", () => ({

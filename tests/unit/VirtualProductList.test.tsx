@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, fireEvent } from "@testing-library/react";
 
 import type { Product } from "@/types";
+import { VirtualProductList } from "@/components/VirtualProductList";
 
 // Mock child components
 vi.mock("@/components/ExpandableQuickAccess", () => ({
@@ -9,7 +10,7 @@ vi.mock("@/components/ExpandableQuickAccess", () => ({
     <div data-testid="expandable-quick-access" />
   ),
 }));
-vi.mock("./LazyLoadingList", () => ({
+vi.mock("@/components/LazyLoadingList", () => ({
   LazyLoadingList: ({ products }: any) => (
     <div data-testid="lazy-loading-list">
       {products.map((p: Product) => (
@@ -18,12 +19,12 @@ vi.mock("./LazyLoadingList", () => ({
     </div>
   ),
 }));
-vi.mock("./ProductCard", () => ({
+vi.mock("@/components/ProductCard", () => ({
   ProductCard: ({ product }: any) => (
     <div data-testid="product-card">{product.name}</div>
   ),
 }));
-vi.mock("./ProductListItem", () => ({
+vi.mock("@/components/ProductListItem", () => ({
   ProductListItem: ({ product }: any) => (
     <div data-testid="product-list-item">{product.name}</div>
   ),

@@ -5,14 +5,14 @@ import type { Product } from "@/types";
 
 import { AdvancedVirtualList } from "@/components/AdvancedVirtualList";
 
-// Mock child components to simplify tests
-vi.mock("./ProductCard", () => ({
+// Mock child components to simplify tests (use absolute paths to match imports)
+vi.mock("@/components/ProductCard", () => ({
   ProductCard: ({ product }: { product: Product }) => (
     <div data-testid="product-card">{product.name}</div>
   ),
 }));
 
-vi.mock("./ProductListItem", () => ({
+vi.mock("@/components/ProductListItem", () => ({
   ProductListItem: ({ product }: { product: Product }) => (
     <div data-testid="product-list-item">{product.name}</div>
   ),
@@ -71,10 +71,8 @@ describe("AdvancedVirtualList", () => {
     );
 
     const container =
-      getByRole("scrollbar") ||
-      getByRole("region") ||
-      document.querySelector("div.overflow-auto");
-    if (!container) throw new Error("Container not found");
+      (document.querySelector("div.overflow-auto") as Element) ||
+      document.body;
 
     // initial visible items
     let listItems = getAllByTestId("product-list-item");

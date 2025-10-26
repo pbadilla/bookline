@@ -4,13 +4,13 @@ import { render, fireEvent } from "@testing-library/react";
 import type { Product } from "@/types";
 import { VirtualScrollingList } from "@/components/VirtualScrollingList";
 
-// Mock ProductCard and ProductListItem
-vi.mock("./ProductCard", () => ({
+// Mock ProductCard and ProductListItem (use absolute alias to match imports)
+vi.mock("@/components/ProductCard", () => ({
   ProductCard: ({ product }: { product: Product }) => (
     <div data-testid="product-card">{product.name}</div>
   ),
 }));
-vi.mock("./ProductListItem", () => ({
+vi.mock("@/components/ProductListItem", () => ({
   ProductListItem: ({ product }: { product: Product }) => (
     <div data-testid="product-list-item">{product.name}</div>
   ),
@@ -59,7 +59,7 @@ describe("VirtualScrollingList", () => {
   });
 
   it("updates visible items on scroll", () => {
-    const { getByRole, getAllByTestId } = render(
+    const { queryByRole, getAllByTestId } = render(
       <VirtualScrollingList
         products={products}
         viewMode="list"
@@ -69,7 +69,11 @@ describe("VirtualScrollingList", () => {
     );
 
     const container =
-      getByRole("list") || getByRole("presentation") || getByRole("generic");
+      (queryByRole("list") as Element | null) ||
+      (queryByRole("presentation") as Element | null) ||
+      document.querySelector("div.overflow-auto");
+
+    if (!container) throw new Error("Could not find scroll container");
 
     // Fire scroll event
     fireEvent.scroll(container, { target: { scrollTop: 100 } });
