@@ -1,11 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act, waitFor } from "@testing-library/react";
 
 import type { Product } from "@/types";
-
 import { AdvancedVirtualList } from "@/components/AdvancedVirtualList";
 
-// Mock child components to simplify tests (use absolute paths to match imports)
+// Mock child components to simplify tests
 vi.mock("@/components/ProductCard", () => ({
   ProductCard: ({ product }: { product: Product }) => (
     <div data-testid="product-card">{product.name}</div>
@@ -42,7 +41,6 @@ describe("AdvancedVirtualList", () => {
     );
 
     const listItems = getAllByTestId("product-list-item");
-    // Because virtualization renders only visible items, expect fewer than total
     expect(listItems.length).toBeGreaterThan(0);
     expect(listItems[0]).toHaveTextContent("Product 0");
   });
@@ -61,8 +59,8 @@ describe("AdvancedVirtualList", () => {
     expect(gridItems[0]).toHaveTextContent("Product 0");
   });
 
-  it("updates visible items on scroll", () => {
-    const { getByRole, getAllByTestId } = render(
+  it("updates visible items on scroll", async () => {
+    const { getAllByTestId } = render(
       <AdvancedVirtualList
         products={products}
         viewMode="list"
@@ -70,19 +68,26 @@ describe("AdvancedVirtualList", () => {
       />
     );
 
-    const container =
-      (document.querySelector("div.overflow-auto") as Element) ||
-      document.body;
+    const container = document.querySelector(
+      "div.overflow-auto"
+    ) as HTMLDivElement;
+    expect(container).toBeTruthy();
 
     // initial visible items
     let listItems = getAllByTestId("product-list-item");
     const firstVisible = listItems[0].textContent;
 
-    // simulate scroll
-    fireEvent.scroll(container, { target: { scrollTop: 200 } });
+    // simulate realistic scroll
+    container.scrollTop = 300;
 
-    // after scroll, visible items should update
-    listItems = getAllByTestId("product-list-item");
-    expect(listItems[0].textContent).not.toBe(firstVisible);
+    await act(async () => {
+      fireEvent.scroll(container);
+    });
+
+    // wait for re-render and assert updated items
+    await waitFor(() => {
+      listItems = getAllByTestId("product-list-item");
+      expect(listItems[0].textContent).not.toBe(firstVisible);
+    });
   });
 });
