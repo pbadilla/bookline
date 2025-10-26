@@ -2,41 +2,38 @@
   "compilerOptions": {
     "jsx": "preserve",
     "target": "esnext",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
+
+    // ✅ ESM-friendly settings
+    "module": "esnext",
+    "moduleResolution": "bundler", // ← Switch from "node" to "bundler" for better ESM + Vite interop
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true, // Helps avoid ESM import edge cases
+
+    // ✅ Safe and standard build flags
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true, // enable strict mode for safety
-    "noEmit": true, // Next.js handles the compilation
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
+    "strict": true,
+    "noEmit": true,
     "resolveJsonModule": true,
-    "isolatedModules": true, // Next.js handles JSX compilation
-    "incremental": true, // faster incremental builds
+    "isolatedModules": true,
+    "incremental": true,
     "forceConsistentCasingInFileNames": true,
+
+    // ✅ Path aliases
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ] // path alias for your components/data
+      "@/*": ["./src/*"]
     },
-    "plugins": [
-      {
-        "name": "next"
-      } // Next.js TypeScript plugin
-    ]
+
+    // ✅ Next.js plugin
+    "plugins": [{ "name": "next" }]
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+, "vitest.config.mts"  ],
+  "exclude": ["node_modules"]
 }

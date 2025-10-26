@@ -8,9 +8,20 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: ["./src/setupTests.ts"],
-    include: ["src/**/*.{test,spec}.{ts,tsx}"],
+
+    // 👇 Match both src/ and tests/unit/
+    include: [
+      "src/**/*.{test,spec}.{ts,tsx}",
+      "tests/unit/**/*.{test,spec}.{ts,tsx}"
+    ],
+
+    // 👇 Use new deps API
     deps: {
-      inline: [/@testing-library/],
+      optimizer: {
+        web: {
+          include: ["@testing-library/react"],
+        },
+      },
     },
   },
 });
