@@ -7,8 +7,9 @@ test.describe('Cart Page', () => {
 
   test('displays empty cart message when cart is empty', async ({ page }) => {
     await page.goto('/cart');
-    await expect(page.getByText('Your cart is empty')).toBeVisible();
-    await expect(page.getByText('Add some products to get started!')).toBeVisible();
+    await expect(page.getByTestId('cart-empty')).toBeVisible();
+    await expect(page.getByTestId('cart-empty-title')).toBeVisible();
+    await expect(page.getByTestId('cart-empty-message')).toBeVisible();
   });
 
   test('adds product to cart and navigates to cart', async ({ page }) => {
@@ -23,7 +24,8 @@ test.describe('Cart Page', () => {
     await page.goto('/cart');
 
     // Check that cart is no longer empty
-    await expect(page.getByText('Checkout Cart')).toBeVisible();
+    await expect(page.getByTestId('cart-title')).toBeVisible();
+    await expect(page.getByTestId('cart-items')).toBeVisible();
   });
 
   test('updates item quantity in cart', async ({ page }) => {
@@ -53,7 +55,7 @@ test.describe('Cart Page', () => {
     await removeButton.click();
     
     // Should show empty cart
-    await expect(page.getByText('Your cart is empty')).toBeVisible();
+    await expect(page.getByTestId('cart-empty')).toBeVisible();
   });
 
   test('displays correct order summary', async ({ page }) => {
@@ -63,10 +65,11 @@ test.describe('Cart Page', () => {
     
     await page.goto('/cart');
     
-    // Check for order summary elements
-    await expect(page.getByText('Order Summary')).toBeVisible();
-    await expect(page.getByText('Subtotal')).toBeVisible();
-    await expect(page.getByText('Total')).toBeVisible();
+    // Check for order summary elements using testids
+    await expect(page.getByTestId('cart-summary')).toBeVisible();
+    await expect(page.getByTestId('cart-summary-title')).toBeVisible();
+    await expect(page.getByTestId('cart-summary-subtotal')).toBeVisible();
+    await expect(page.getByTestId('cart-summary-total')).toBeVisible();
   });
 
   test('opens checkout modal when clicking proceed to checkout', async ({ page }) => {
@@ -76,10 +79,29 @@ test.describe('Cart Page', () => {
     
     await page.goto('/cart');
     
-    // Click checkout button
-    await page.getByRole('button', { name: 'Proceed to Checkout' }).click();
+    // Click checkout button using testid
+    await page.getByTestId('cart-checkout-button').click();
     
-    // Check modal appears
-    await expect(page.getByText('Confirm Checkout')).toBeVisible();
+    // Check modal appears using testid
+    await expect(page.getByTestId('checkout-modal')).toBeVisible();
+    await expect(page.getByTestId('checkout-modal-title')).toBeVisible();
+  });
+
+  test('can cancel checkout modal', async ({ page }) => {
+    // Add item to cart
+    await page.waitForSelector('[data-testid="product-card"]');
+    await page.locator('button:has-text("Add to Cart")').first().click();
+    
+    await page.goto('/cart');
+    
+    // Open modal
+    await page.getByTestId('cart-checkout-button').click();
+    await expect(page.getByTestId('checkout-modal')).toBeVisible();
+    
+    // Close modal
+    await page.getByTestId('checkout-modal-cancel').click();
+    
+    // Modal should be gone
+    await expect(page.getByTestId('checkout-modal')).not.toBeVisible();
   });
 });

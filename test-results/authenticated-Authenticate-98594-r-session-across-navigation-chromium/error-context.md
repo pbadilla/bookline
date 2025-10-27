@@ -1,0 +1,372 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - link "Bookline" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img [ref=e7]
+          - generic [ref=e10]: Bookline
+        - generic [ref=e11]: "|"
+        - generic [ref=e14]: Bronze Tier
+      - navigation [ref=e15]:
+        - link "Home" [ref=e16] [cursor=pointer]:
+          - /url: /
+          - button "Home" [ref=e17]
+        - generic [ref=e18]: Welcome, Regular User
+        - link [ref=e19] [cursor=pointer]:
+          - /url: /cart
+          - button [ref=e20]:
+            - img [ref=e21]
+        - button "Logout" [ref=e26] [cursor=pointer]:
+          - img [ref=e27]
+          - text: Logout
+  - main [ref=e30]:
+    - generic [ref=e31]:
+      - heading "Welcome to Bookline" [level=1] [ref=e32]
+      - paragraph [ref=e33]: Discover your next favorite book in our extensive collection.
+      - generic [ref=e34]:
+        - generic [ref=e35]:
+          - button "Quick Filters" [ref=e36] [cursor=pointer]:
+            - generic [ref=e37]: Quick Filters
+            - img [ref=e38]
+          - generic [ref=e42]:
+            - generic [ref=e43]:
+              - heading "Categories" [level=3] [ref=e44]:
+                - img [ref=e45]
+                - text: Categories
+              - generic [ref=e48]:
+                - button "Fiction" [ref=e49] [cursor=pointer]
+                - button "Non-Fiction" [ref=e50] [cursor=pointer]
+                - button "Science" [ref=e51] [cursor=pointer]
+                - button "Technology" [ref=e52] [cursor=pointer]
+                - button "Business" [ref=e53] [cursor=pointer]
+                - button "Health" [ref=e54] [cursor=pointer]
+                - button "History" [ref=e55] [cursor=pointer]
+                - button "Art" [ref=e56] [cursor=pointer]
+            - generic [ref=e57]:
+              - heading "Price Ranges" [level=3] [ref=e58]:
+                - img [ref=e59]
+                - text: Price Ranges
+              - generic [ref=e61]:
+                - button "Under 20€" [ref=e62] [cursor=pointer]
+                - button "20€ - 50€" [ref=e63] [cursor=pointer]
+                - button "50€ - 100€" [ref=e64] [cursor=pointer]
+        - generic [ref=e65]:
+          - generic [ref=e66]:
+            - img [ref=e67]
+            - textbox "Search products..." [ref=e70]
+          - combobox "Filter by Category" [ref=e71]:
+            - option "All Categories" [selected]
+            - option "Business"
+            - option "Fiction"
+            - option "History"
+            - option "Science"
+            - option "Technology"
+          - generic [ref=e72]:
+            - spinbutton [ref=e73]: "0"
+            - spinbutton [ref=e74]: "1000"
+          - button "Clear Filters" [ref=e75] [cursor=pointer]:
+            - img [ref=e76]
+            - generic [ref=e79]: Clear Filters
+        - generic [ref=e81]:
+          - generic [ref=e82]:
+            - heading "All Products" [level=2] [ref=e83]
+            - paragraph [ref=e84]: Browse our complete collection of 200 books
+          - generic [ref=e85]:
+            - generic [ref=e86]:
+              - generic [ref=e87]: "Mode:"
+              - generic [ref=e88]:
+                - button "Lazy" [ref=e89] [cursor=pointer]:
+                  - img [ref=e90]
+                  - generic [ref=e92]: Lazy
+                - button "Pages" [ref=e93] [cursor=pointer]:
+                  - img [ref=e94]
+                  - generic [ref=e97]: Pages
+            - generic [ref=e99]:
+              - generic [ref=e100]: "View:"
+              - generic [ref=e101]:
+                - button [ref=e102] [cursor=pointer]:
+                  - img [ref=e103]
+                - button [ref=e104] [cursor=pointer]:
+                  - img [ref=e105]
+        - generic [ref=e107]:
+          - generic [ref=e108]:
+            - generic [ref=e109]:
+              - generic [ref=e110]:
+                - generic [ref=e111]:
+                  - img [ref=e115]
+                  - img "Ancient Dreams" [ref=e118]
+                - generic [ref=e120]: Fiction
+              - generic [ref=e121]:
+                - heading "Ancient Dreams" [level=3] [ref=e122]
+                - paragraph [ref=e123]: An unforgettable journey through Shadows
+              - generic [ref=e125]:
+                - generic [ref=e126]: 16,43 €
+                - generic [ref=e127]: Stock:47
+              - button "Add to Cart" [ref=e129] [cursor=pointer]:
+                - img [ref=e130]
+                - text: Add to Cart
+            - generic [ref=e134]:
+              - generic [ref=e135]:
+                - img "Understanding Success" [ref=e137]
+                - generic [ref=e139]: History
+              - generic [ref=e140]:
+                - heading "Understanding Success" [level=3] [ref=e141]
+                - paragraph [ref=e142]: A comprehensive exploration of Innovation
+              - generic [ref=e144]:
+                - generic [ref=e145]: 21,52 €
+                - generic [ref=e146]: Stock:21
+              - button "Add to Cart" [ref=e148] [cursor=pointer]:
+                - img [ref=e149]
+                - text: Add to Cart
+            - generic [ref=e153]:
+              - generic [ref=e154]:
+                - generic [ref=e155]:
+                  - img [ref=e159]
+                  - img "Modern Leadership" [ref=e162]
+                - generic [ref=e164]: Technology
+              - generic [ref=e165]:
+                - heading "Modern Leadership" [level=3] [ref=e166]
+                - paragraph [ref=e167]: Master the fundamentals of Success
+              - generic [ref=e169]:
+                - generic [ref=e170]: 33,00 €
+                - generic [ref=e171]: Stock:8
+              - button "Add to Cart" [ref=e173] [cursor=pointer]:
+                - img [ref=e174]
+                - text: Add to Cart
+            - generic [ref=e178]:
+              - generic [ref=e179]:
+                - img "Productivity Mastery" [ref=e181]
+                - generic [ref=e183]: Business
+              - generic [ref=e184]:
+                - heading "Productivity Mastery" [level=3] [ref=e185]
+                - paragraph [ref=e186]: Transform your approach to Excellence
+              - generic [ref=e188]:
+                - generic [ref=e189]: 18,64 €
+                - generic [ref=e190]: Stock:76
+              - button "Add to Cart" [ref=e192] [cursor=pointer]:
+                - img [ref=e193]
+                - text: Add to Cart
+            - generic [ref=e197]:
+              - generic [ref=e198]:
+                - generic [ref=e199]:
+                  - img [ref=e203]
+                  - img "Complete Dreams" [ref=e206]
+                - generic [ref=e208]: Fiction
+              - generic [ref=e209]:
+                - heading "Complete Dreams" [level=3] [ref=e210]
+                - paragraph [ref=e211]: An unforgettable journey through Tomorrow
+              - generic [ref=e213]:
+                - generic [ref=e214]: 15,00 €
+                - generic [ref=e215]: Stock:68
+              - button "Add to Cart" [ref=e217] [cursor=pointer]:
+                - img [ref=e218]
+                - text: Add to Cart
+            - generic [ref=e222]:
+              - generic [ref=e223]:
+                - img "Growth Explained" [ref=e225]
+                - generic [ref=e227]: Science
+              - generic [ref=e228]:
+                - heading "Growth Explained" [level=3] [ref=e229]
+                - paragraph [ref=e230]: A journey through scientific discovery
+              - generic [ref=e232]:
+                - generic [ref=e233]: 24,15 €
+                - generic [ref=e234]: Stock:34
+              - button "Add to Cart" [ref=e236] [cursor=pointer]:
+                - img [ref=e237]
+                - text: Add to Cart
+            - generic [ref=e241]:
+              - generic [ref=e242]:
+                - img "Silent Discovery" [ref=e244]
+                - generic [ref=e246]: Business
+              - generic [ref=e247]:
+                - heading "Silent Discovery" [level=3] [ref=e248]
+                - paragraph [ref=e249]: Proven strategies for success in Innovation
+              - generic [ref=e251]:
+                - generic [ref=e252]: 28,17 €
+                - generic [ref=e253]: Stock:40
+              - button "Add to Cart" [ref=e255] [cursor=pointer]:
+                - img [ref=e256]
+                - text: Add to Cart
+            - generic [ref=e260]:
+              - generic [ref=e261]:
+                - img "Productivity Explained" [ref=e263]
+                - generic [ref=e265]: Science
+              - generic [ref=e266]:
+                - heading "Productivity Explained" [level=3] [ref=e267]
+                - paragraph [ref=e268]: A journey through scientific discovery
+              - generic [ref=e270]:
+                - generic [ref=e271]: 20,66 €
+                - generic [ref=e272]: Stock:44
+              - button "Add to Cart" [ref=e274] [cursor=pointer]:
+                - img [ref=e275]
+                - text: Add to Cart
+            - generic [ref=e279]:
+              - generic [ref=e280]:
+                - img "The Last Challenge" [ref=e282]
+                - generic [ref=e284]: Fiction
+              - generic [ref=e285]:
+                - heading "The Last Challenge" [level=3] [ref=e286]
+                - paragraph [ref=e287]: A captivating tale of Mind and Success
+              - generic [ref=e289]:
+                - generic [ref=e290]: 14,29 €
+                - generic [ref=e291]: Stock:26
+              - button "Add to Cart" [ref=e293] [cursor=pointer]:
+                - img [ref=e294]
+                - text: Add to Cart
+            - generic [ref=e298]:
+              - generic [ref=e299]:
+                - img "The Rise of Mind" [ref=e301]
+                - generic [ref=e303]: History
+              - generic [ref=e304]:
+                - heading "The Rise of Mind" [level=3] [ref=e305]
+                - paragraph [ref=e306]: The definitive history of Change
+              - generic [ref=e308]:
+                - generic [ref=e309]: 16,45 €
+                - generic [ref=e310]: Stock:30
+              - button "Add to Cart" [ref=e312] [cursor=pointer]:
+                - img [ref=e313]
+                - text: Add to Cart
+            - generic [ref=e317]:
+              - generic [ref=e318]:
+                - img "Ancient Code" [ref=e320]
+                - generic [ref=e322]: Technology
+              - generic [ref=e323]:
+                - heading "Ancient Code" [level=3] [ref=e324]
+                - paragraph [ref=e325]: A practical guide to Leadership excellence
+              - generic [ref=e327]:
+                - generic [ref=e328]: 38,73 €
+                - generic [ref=e329]: Stock:34
+              - button "Add to Cart" [ref=e331] [cursor=pointer]:
+                - img [ref=e332]
+                - text: Add to Cart
+            - generic [ref=e336]:
+              - generic [ref=e337]:
+                - generic [ref=e338]:
+                  - img [ref=e342]
+                  - img "The 3 Laws of Learning" [ref=e345]
+                - generic [ref=e347]: Business
+              - generic [ref=e348]:
+                - heading "The 3 Laws of Learning" [level=3] [ref=e349]
+                - paragraph [ref=e350]: Proven strategies for success in Creativity
+              - generic [ref=e352]:
+                - generic [ref=e353]: 15,73 €
+                - generic [ref=e354]: Stock:47
+              - button "Add to Cart" [ref=e356] [cursor=pointer]:
+                - img [ref=e357]
+                - text: Add to Cart
+            - generic [ref=e361]:
+              - generic [ref=e362]:
+                - generic [ref=e363]:
+                  - img [ref=e367]
+                  - img "The Last Transformation" [ref=e370]
+                - generic [ref=e372]: Fiction
+              - generic [ref=e373]:
+                - heading "The Last Transformation" [level=3] [ref=e374]
+                - paragraph [ref=e375]: A captivating tale of Success and Excellence
+              - generic [ref=e377]:
+                - generic [ref=e378]: 11,40 €
+                - generic [ref=e379]: Stock:37
+              - button "Add to Cart" [ref=e381] [cursor=pointer]:
+                - img [ref=e382]
+                - text: Add to Cart
+            - generic [ref=e386]:
+              - generic [ref=e387]:
+                - img "Excellence Explained" [ref=e389]
+                - generic [ref=e391]: Science
+              - generic [ref=e392]:
+                - heading "Excellence Explained" [level=3] [ref=e393]
+                - paragraph [ref=e394]: Understanding the universe through Productivity
+              - generic [ref=e396]:
+                - generic [ref=e397]: 16,59 €
+                - generic [ref=e398]: Stock:33
+              - button "Add to Cart" [ref=e400] [cursor=pointer]:
+                - img [ref=e401]
+                - text: Add to Cart
+            - generic [ref=e405]:
+              - generic [ref=e406]:
+                - img "Lost Transformation" [ref=e408]
+                - generic [ref=e410]: Business
+              - generic [ref=e411]:
+                - heading "Lost Transformation" [level=3] [ref=e412]
+                - paragraph [ref=e413]: Build better habits and achieve more
+              - generic [ref=e415]:
+                - generic [ref=e416]: 28,78 €
+                - generic [ref=e417]: Stock:60
+              - button "Add to Cart" [ref=e419] [cursor=pointer]:
+                - img [ref=e420]
+                - text: Add to Cart
+            - generic [ref=e424]:
+              - generic [ref=e425]:
+                - img "Silent Productivity" [ref=e427]
+                - generic [ref=e429]: Science
+              - generic [ref=e430]:
+                - heading "Silent Productivity" [level=3] [ref=e431]
+                - paragraph [ref=e432]: Complex concepts made simple
+              - generic [ref=e434]:
+                - generic [ref=e435]: 16,71 €
+                - generic [ref=e436]: Stock:35
+              - button "Add to Cart" [ref=e438] [cursor=pointer]:
+                - img [ref=e439]
+                - text: Add to Cart
+            - generic [ref=e443]:
+              - generic [ref=e444]:
+                - img "The Last Revolution" [ref=e446]
+                - generic [ref=e448]: Fiction
+              - generic [ref=e449]:
+                - heading "The Last Revolution" [level=3] [ref=e450]
+                - paragraph [ref=e451]: A captivating tale of Success and Change
+              - generic [ref=e453]:
+                - generic [ref=e454]: 14,40 €
+                - generic [ref=e455]: Stock:39
+              - button "Add to Cart" [ref=e457] [cursor=pointer]:
+                - img [ref=e458]
+                - text: Add to Cart
+            - generic [ref=e462]:
+              - generic [ref=e463]:
+                - img "Practical History of Success" [ref=e465]
+                - generic [ref=e467]: History
+              - generic [ref=e468]:
+                - heading "Practical History of Success" [level=3] [ref=e469]
+                - paragraph [ref=e470]: From ancient times to the modern era
+              - generic [ref=e472]:
+                - generic [ref=e473]: 23,21 €
+                - generic [ref=e474]: Stock:28
+              - button "Add to Cart" [ref=e476] [cursor=pointer]:
+                - img [ref=e477]
+                - text: Add to Cart
+            - generic [ref=e481]:
+              - generic [ref=e482]:
+                - img "The Art of Growth" [ref=e484]
+                - generic [ref=e486]: Technology
+              - generic [ref=e487]:
+                - heading "The Art of Growth" [level=3] [ref=e488]
+                - paragraph [ref=e489]: A practical guide to Learning excellence
+              - generic [ref=e491]:
+                - generic [ref=e492]: 34,25 €
+                - generic [ref=e493]: Stock:45
+              - button "Add to Cart" [ref=e495] [cursor=pointer]:
+                - img [ref=e496]
+                - text: Add to Cart
+            - generic [ref=e500]:
+              - generic [ref=e501]:
+                - generic [ref=e502]:
+                  - img [ref=e506]
+                  - img "Ultimate Story" [ref=e509]
+                - generic [ref=e511]: Business
+              - generic [ref=e512]:
+                - heading "Ultimate Story" [level=3] [ref=e513]
+                - paragraph [ref=e514]: Transform your approach to Innovation
+              - generic [ref=e516]:
+                - generic [ref=e517]: 16,95 €
+                - generic [ref=e518]: Stock:74
+              - button "Add to Cart" [ref=e520] [cursor=pointer]:
+                - img [ref=e521]
+                - text: Add to Cart
+          - button "Load More" [ref=e526] [cursor=pointer]
+  - region "Notifications alt+T"
+  - alert [ref=e528]
+```

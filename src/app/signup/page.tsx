@@ -178,6 +178,7 @@ function SignupPage() {
                     ? "bg-primary text-white shadow-sm"
                     : "text-muted-foreground"
                 )}
+                data-testid="login-tab"
               >
                 Login
               </TabsTrigger>
@@ -189,6 +190,7 @@ function SignupPage() {
                     ? "bg-primary text-white shadow-sm"
                     : "text-muted-foreground"
                 )}
+                data-testid="register-tab"
               >
                 Register
               </TabsTrigger>
@@ -199,7 +201,7 @@ function SignupPage() {
               value="login"
               className="transition-opacity duration-300"
             >
-              <form onSubmit={handleSignIn} className="space-y-4">
+              <form onSubmit={handleSignIn} className="space-y-4" data-testid="login-form">
                 <div className="space-y-2">
                   <Label htmlFor="login-email">Email</Label>
                   <Input
@@ -235,6 +237,7 @@ function SignupPage() {
                   className="w-full" 
                   disabled={loading}
                   onClick={() => console.log("🖱️ Login button clicked")}
+                  data-testid="sign-in-button"
                 >
                   {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   Sign In
@@ -247,7 +250,7 @@ function SignupPage() {
               value="signup"
               className="transition-opacity duration-300"
             >
-              <form onSubmit={handleSignUp} className="space-y-4">
+              <form onSubmit={handleSignUp} className="space-y-4" data-testid="signup-form">
                 <div className="space-y-2">
                   <Label htmlFor="signup-email">Email</Label>
                   <Input
@@ -320,6 +323,7 @@ function SignupPage() {
                   className="w-full" 
                   disabled={loading}
                   onClick={() => console.log("🖱️ Signup button clicked")}
+                  data-testid="create-account-button"
                 >
                   {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   Create Account
