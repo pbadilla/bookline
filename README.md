@@ -5,7 +5,7 @@ An opinionated starter for an e-commerce storefront built with Next.js, React an
 
 ## Screenshots
 
-![App Screenshot]
+![App Screenshot](images/screenshot.png)
 
 ## Features
 
