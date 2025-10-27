@@ -1,5 +1,5 @@
 
-# Bookline Ecommerce
+# Bookline Ecommerce 1.0.1
 
 An opinionated starter for an e-commerce storefront built with Next.js, React and Tailwind CSS — focused on DX (TypeScript, Vitest, Playwright) and modern UI primitives.
 
