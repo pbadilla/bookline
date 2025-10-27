@@ -29,7 +29,7 @@ export default function RootLayout({
         <AuthProvider>
           <CartProvider>
             <Header />
-            <main className="container flex-grow py-8">{children}</main>
+            <main className="container flex-grow py-4">{children}</main>
           </CartProvider>
         </AuthProvider>
         <Toaster position="top-center" richColors />

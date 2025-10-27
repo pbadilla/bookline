@@ -1,6 +1,7 @@
 "use client";
 
-import { ShoppingCart, Trash2 } from "lucide-react";
+import { ArrowLeft, ShoppingCart, Trash2 } from "lucide-react";
+import Link from 'next/link'
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,8 +13,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { formatPrice } from "@/lib/utils";
+import { LazyImage } from "@/components/ui/LazyImage";
+import { CheckoutModal } from "@/components/CheckOutModal";
 
 // Define your tier discount system
 // Example: spend thresholds = discount %
@@ -26,14 +29,14 @@ const DISCOUNT_TIERS = [
 export default function CheckoutCart() {
   const { items, removeItem, updateQuantity, clearCart } = useCart();
 
-  // Compute totals and discount
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
+
   const { subtotal, discount, total } = useMemo(() => {
     const subtotal = items.reduce(
       (acc, item) => acc + item.price * (item.quantity || 1),
       0
     );
 
-    // find highest tier that applies
     const tier = DISCOUNT_TIERS.filter((t) => subtotal >= t.threshold).pop();
     const discountRate = tier ? tier.discount : 0;
     const discount = (subtotal * discountRate) / 100;
@@ -45,14 +48,20 @@ export default function CheckoutCart() {
   if (items.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
+
         <ShoppingCart className="h-12 w-12 text-muted-foreground mb-2" />
         <h2 className="text-xl font-semibold mb-1">Your cart is empty</h2>
         <p className="text-muted-foreground">
           Add some products to get started!
         </p>
+        <Link href="/" className="flex items-center space-x-2">
+          <ArrowLeft className="h-5 w-5" />
+          <span className="font-semibold">Back to Store</span>
+        </Link>
       </div>
     );
   }
+  
 
   return (
     <div className="p-6 space-y-6">
@@ -67,15 +76,17 @@ export default function CheckoutCart() {
               className="flex items-center justify-between p-4"
             >
               <div className="flex items-center gap-4">
-                <img
-                  src={item.image_url}
+                <LazyImage
+                  src={`https://picsum.photos/40?random=${item.id}`}
                   alt={item.title}
-                  className="h-20 w-20 rounded-md object-cover"
+                  title={item.title}
+                  className="object-cover w-full h-full transition-transform group-hover:scale-105"
                 />
+
                 <div>
                   <h3 className="font-semibold">{item.title}</h3>
                   <p className="text-sm text-muted-foreground">
-                    {formatPrice(item.price)} each
+                    {formatPrice(item.price)}
                   </p>
                   <div className="mt-2 flex items-center gap-2">
                     <Input
@@ -98,7 +109,7 @@ export default function CheckoutCart() {
                 </div>
               </div>
               <p className="font-bold text-right">
-                ${(item.price * (item.quantity || 1)).toFixed(2)}
+                {formatPrice(item.price * (item.quantity || 1))}
               </p>
             </Card>
           ))}
@@ -112,33 +123,26 @@ export default function CheckoutCart() {
           <CardContent className="space-y-2">
             <div className="flex justify-between text-sm">
               <span>Subtotal</span>
-              <span>${subtotal.toFixed(2)}</span>
+              <span>{formatPrice(subtotal)}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span>Discount</span>
-              <span
-                className={
-                  discount > 0 ? "text-green-600" : "text-muted-foreground"
-                }
-              >
+              <span className={discount > 0 ? "text-green-600" : "text-muted-foreground"}>
                 {discount > 0
-                  ? `-${discount.toFixed(2)} (${(
-                      (discount / subtotal) *
-                      100
-                    ).toFixed(0)}%)`
-                  : "$0.00"}
+                  ? `-${formatPrice(discount)} (${((discount / subtotal) * 100).toFixed(0)}%)`
+                  : formatPrice(0)}
               </span>
             </div>
             <hr />
             <div className="flex justify-between font-semibold text-lg">
               <span>Total</span>
-              <span>${total.toFixed(2)}</span>
+              <span>{formatPrice(total)}</span>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-2">
             <Button
               className="w-full"
-              onClick={() => toast.success("Proceeding to checkout...")}
+              onClick={() => setCheckoutOpen(true)}
             >
               Proceed to Checkout
             </Button>
@@ -155,6 +159,19 @@ export default function CheckoutCart() {
           </CardFooter>
         </Card>
       </div>
+      {checkoutOpen && 
+        <CheckoutModal
+          open={checkoutOpen}
+          onClose={() => setCheckoutOpen(false)}
+          subtotal={subtotal}
+          discount={discount}
+          total={total}
+          onConfirm={() => {
+            setCheckoutOpen(false);
+            toast.success("Checkout successful!");
+            clearCart();
+          }}
+        />}
     </div>
   );
 }

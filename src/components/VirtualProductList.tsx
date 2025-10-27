@@ -49,7 +49,7 @@ export function VirtualProductList({ products }: VirtualProductListProps) {
     return products.filter((product) => {
       const matchesSearch =
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchTerm.toLowerCase());
+        (product.description?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false);
       const matchesCategory =
         !selectedCategory || product.category === selectedCategory;
       const matchesPrice =
@@ -115,6 +115,8 @@ export function VirtualProductList({ products }: VirtualProductListProps) {
         </div>
 
         <select
+          id="category-select"
+          title="Filter by Category"
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
@@ -164,7 +166,6 @@ export function VirtualProductList({ products }: VirtualProductListProps) {
 
       <div className="mb-6">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 space-y-4 md:space-y-0">
-          {/* Left side: Title & subtitle */}
           <div>
             <h2 className="text-2xl font-bold text-foreground">
               {hasActiveFilters ? "Search Results" : "All Products"}

@@ -11,15 +11,16 @@ interface LazyLoadingListProps {
   products: Product[];
   viewMode: "list" | "grid";
   itemsPerPage?: number;
-  containerHeight?: number; // 👈 new
+  containerHeight?: number;
 }
 
 export function LazyLoadingList({
   products,
   viewMode,
   itemsPerPage = 20,
-  containerHeight = 600, // 👈 default same as AdvancedVirtualList
+  containerHeight = 600, 
 }: LazyLoadingListProps) {
+
   const [loadedProducts, setLoadedProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +28,6 @@ export function LazyLoadingList({
   const observerRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // 🧠 Load initial page
   useEffect(() => {
     const initialProducts = products.slice(0, itemsPerPage);
     setLoadedProducts(initialProducts);
@@ -35,7 +35,6 @@ export function LazyLoadingList({
     setHasMore(products.length > itemsPerPage);
   }, [products, itemsPerPage]);
 
-  // ⚡ Load more products
   const loadMore = useCallback(() => {
     if (isLoading || !hasMore) return;
 
@@ -53,7 +52,6 @@ export function LazyLoadingList({
     }, 500);
   }, [currentPage, itemsPerPage, products, isLoading, hasMore]);
 
-  // 👁️ Intersection observer on the scroll container
   useEffect(() => {
     if (!containerRef.current) return;
     const container = containerRef.current;
@@ -65,7 +63,7 @@ export function LazyLoadingList({
         }
       },
       {
-        root: container, // 👈 use the fixed container as scroll root
+        root: container,
         threshold: 0.1,
       }
     );

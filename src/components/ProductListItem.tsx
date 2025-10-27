@@ -21,19 +21,33 @@ export function ProductListItem({ product }: ProductListItemProps) {
   const { addItem } = useCart();
 
   const handleAddToCart = () => {
-    addItem(product);
+    // Ensure all required fields are present and types are correct
+    if (
+      product &&
+      product.id &&
+      typeof product.name === "string" &&
+      typeof product.price === "number" &&
+      typeof product.title === "string"
+    ) {
+      // Omit quantity for addItem, ensure title is string
+      addItem({
+        ...product,
+        title: product.title,
+      });
+    } else {
+      // You might want to handle error here
+      console.error("Product data is incomplete or invalid for adding to cart.");
+    }
   };
 
   return (
     <Card className="hover:shadow-md transition-shadow">
       <CardContent className="px-3 py-2">
         <div className="flex items-center space-x-6">
-          {}
           <div className="w-20 h-20 bg-muted flex items-center justify-center rounded-lg flex-shrink-0">
             <div className="text-2xl">📚</div>
           </div>
 
-          {}
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between">
               <div className="flex-1">
@@ -56,7 +70,6 @@ export function ProductListItem({ product }: ProductListItemProps) {
                 </div>
               </div>
 
-              {}
               <div className="flex flex-col items-end space-y-3 ml-4">
                 <div className="text-right">
                   <div className="text-2xl font-bold text-green-600">
