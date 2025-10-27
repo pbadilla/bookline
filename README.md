@@ -60,4 +60,4 @@ To run tests, run the following command
 
 ## Appendix
 
-Any additional information goes here
+@Author pachibadilla@gmail.com
