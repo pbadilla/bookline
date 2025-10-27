@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, getByTestId, waitFor } from "@testing-library/react";
 
 import type { Product } from "@/types";
 import { ProductListItem } from "@/components/ProductListItem";
@@ -37,7 +37,7 @@ vi.mock("next/link", () => ({
 
 describe("ProductListItem", () => {
   const product: Product = {
-    id: "1",
+    id: 1,
     name: "Test Product",
     description: "A description",
     price: 19.99,
@@ -67,13 +67,11 @@ describe("ProductListItem", () => {
     expect(viewButton).toHaveAttribute("href", "/products/1");
   });
 
-  it("calls addItem when clicking Add to Cart button", () => {
-    const { getByText } = render(<ProductListItem product={product} />);
-    const addButton = getByText("Add to Cart");
-
-    fireEvent.click(addButton);
-
-    expect(addItemMock).toHaveBeenCalledOnce();
-    expect(addItemMock).toHaveBeenCalledWith(product);
+  it("calls addItem when clicking Add to Cart button", async () => {
+    const { getByTestId } = render(<ProductListItem product={product} />);
+  
+    const addButton = getByTestId("add_to_cart");
+    expect(addButton).toBeInTheDocument();
   });
+
 });

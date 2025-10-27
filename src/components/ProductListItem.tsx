@@ -84,7 +84,7 @@ export function ProductListItem({ product }: ProductListItemProps) {
                       View
                     </Button>
                   </Link>
-                  <Button size="sm" onClick={handleAddToCart}>
+                  <Button size="sm" onClick={handleAddToCart} data-testid="add_to_cart">
                     <ShoppingCart className="h-4 w-4 mr-2" />
                     Add to Cart
                   </Button>

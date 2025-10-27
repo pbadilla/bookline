@@ -123,42 +123,42 @@ const AdminPageContent: React.FC = () => {
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8" data-testid="admin-page-content">
         {/* Dashboard Stats */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-4">Admin Dashboard</h1>
-          <p className="text-muted-foreground">Manage your products and orders</p>
+          <h1 className="text-3xl font-bold text-foreground mb-4" data-testid="admin-dashboard-title">Admin Dashboard</h1>
+          <p className="text-muted-foreground" data-testid="admin-dashboard-subtitle">Manage your products and orders</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          <Card>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8" data-testid="admin-stats">
+          <Card data-testid="admin-stat-products">
             <CardHeader><CardTitle>Total Products</CardTitle></CardHeader>
-            <CardContent><div className="text-2xl font-bold">{products.length}</div></CardContent>
+            <CardContent><div className="text-2xl font-bold" data-testid="admin-products-count">{products.length}</div></CardContent>
           </Card>
 
-          <Card>
+          <Card data-testid="admin-stat-orders">
             <CardHeader><CardTitle>Total Orders</CardTitle></CardHeader>
-            <CardContent><div className="text-2xl font-bold">0</div></CardContent>
+            <CardContent><div className="text-2xl font-bold" data-testid="admin-orders-count">0</div></CardContent>
           </Card>
 
-          <Card>
+          <Card data-testid="admin-stat-revenue">
             <CardHeader><CardTitle>Revenue</CardTitle></CardHeader>
-            <CardContent><div className="text-2xl font-bold">$0.00</div></CardContent>
+            <CardContent><div className="text-2xl font-bold" data-testid="admin-revenue">$0.00</div></CardContent>
           </Card>
         </div>
 
         {/* Product Actions */}
         <div className="mb-6 flex justify-between items-center">
-          <h2 className="text-2xl font-semibold">Products</h2>
-          <Button onClick={handleAddProduct}>
+          <h2 className="text-2xl font-semibold" data-testid="admin-products-section-title">Products</h2>
+          <Button data-testid="admin-add-product-button" onClick={handleAddProduct}>
             <Plus className="h-4 w-4 mr-2" /> Add Product
           </Button>
         </div>
 
         {/* Products List */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-testid="admin-products-list">
           {products.map(product => (
-            <Card key={product.id}>
+            <Card key={product.id} data-testid={`admin-product-${product.id}`}>
               <CardHeader>
                 <CardTitle className="text-lg">{product.name}</CardTitle>
                 <p className="text-sm text-muted-foreground">{product.category}</p>

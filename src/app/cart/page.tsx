@@ -47,14 +47,13 @@ export default function CheckoutCart() {
 
   if (items.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-center">
-
+      <div className="flex flex-col items-center justify-center py-20 text-center" data-testid="cart-empty">
         <ShoppingCart className="h-12 w-12 text-muted-foreground mb-2" />
-        <h2 className="text-xl font-semibold mb-1">Your cart is empty</h2>
-        <p className="text-muted-foreground">
+        <h2 className="text-xl font-semibold mb-1" data-testid="cart-empty-title">Your cart is empty</h2>
+        <p className="text-muted-foreground" data-testid="cart-empty-message">
           Add some products to get started!
         </p>
-        <Link href="/" className="flex items-center space-x-2">
+        <Link href="/" className="flex items-center space-x-2" data-testid="cart-back-to-store">
           <ArrowLeft className="h-5 w-5" />
           <span className="font-semibold">Back to Store</span>
         </Link>
@@ -64,16 +63,17 @@ export default function CheckoutCart() {
   
 
   return (
-    <div className="p-6 space-y-6">
-      <h1 className="text-3xl font-bold">Checkout Cart</h1>
+    <div className="p-6 space-y-6" data-testid="cart-page">
+      <h1 className="text-3xl font-bold" data-testid="cart-title">Checkout Cart</h1>
 
       <div className="grid md:grid-cols-3 gap-6">
         {/* Cart Items */}
-        <div className="md:col-span-2 space-y-4">
+        <div className="md:col-span-2 space-y-4" data-testid="cart-items">
           {items.map((item) => (
             <Card
               key={item.id}
               className="flex items-center justify-between p-4"
+              data-testid={`cart-item-${item.id}`}
             >
               <div className="flex items-center gap-4">
                 <LazyImage
@@ -116,37 +116,39 @@ export default function CheckoutCart() {
         </div>
 
         {/* Summary */}
-        <Card className="p-4 h-fit">
+        <Card className="p-4 h-fit" data-testid="cart-summary">
           <CardHeader>
-            <CardTitle>Order Summary</CardTitle>
+            <CardTitle data-testid="cart-summary-title">Order Summary</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
-            <div className="flex justify-between text-sm">
+            <div className="flex justify-between text-sm" data-testid="cart-summary-subtotal">
               <span>Subtotal</span>
-              <span>{formatPrice(subtotal)}</span>
+              <span data-testid="cart-subtotal-value">{formatPrice(subtotal)}</span>
             </div>
-            <div className="flex justify-between text-sm">
+            <div className="flex justify-between text-sm" data-testid="cart-summary-discount">
               <span>Discount</span>
-              <span className={discount > 0 ? "text-green-600" : "text-muted-foreground"}>
+              <span className={discount > 0 ? "text-green-600" : "text-muted-foreground"} data-testid="cart-discount-value">
                 {discount > 0
                   ? `-${formatPrice(discount)} (${((discount / subtotal) * 100).toFixed(0)}%)`
                   : formatPrice(0)}
               </span>
             </div>
             <hr />
-            <div className="flex justify-between font-semibold text-lg">
+            <div className="flex justify-between font-semibold text-lg" data-testid="cart-summary-total">
               <span>Total</span>
-              <span>{formatPrice(total)}</span>
+              <span data-testid="cart-total-value">{formatPrice(total)}</span>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-2">
             <Button
+              data-testid="cart-checkout-button"
               className="w-full"
               onClick={() => setCheckoutOpen(true)}
             >
               Proceed to Checkout
             </Button>
             <Button
+              data-testid="cart-clear-button"
               variant="outline"
               className="w-full"
               onClick={() => {
