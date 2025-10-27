@@ -3,11 +3,9 @@
 
 An opinionated starter for an e-commerce storefront built with Next.js, React and Tailwind CSS — focused on DX (TypeScript, Vitest, Playwright) and modern UI primitives.
 
-This README summarizes how to run, test and contribute to the project.
-
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot]
 
 ## Features
 
